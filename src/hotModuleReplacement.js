@@ -51,21 +51,21 @@ function updateCss(el, url) {
 
   el.visited = true;
   const newEl = el.cloneNode();
+  const oldEl = el.cloneNode();
 
   newEl.isLoaded = false;
 
   newEl.addEventListener('load', function () {
     newEl.isLoaded = true;
-    el.parentNode.removeChild(el);
   });
 
   newEl.addEventListener('error', function () {
     newEl.isLoaded = true;
-    el.parentNode.removeChild(el);
+    el.parentNode.replaceChild(oldEl, el);
   });
 
   newEl.href = url + '?' + Date.now();
-  el.parentNode.appendChild(newEl);
+  el.parentNode.replaceChild(newEl, el);
 }
 
 function getReloadUrl(href, src) {
